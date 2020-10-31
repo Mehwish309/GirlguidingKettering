@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace GirlsGK
+{
+    public partial class Rainbow : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //String CS = ConfigurationManager.ConnectionStrings["MyConn"].ConnectionString;
+                //SqlConnection conn = new SqlConnection(CS);
+                //conn.Open();
+                DataTable dt = new DataTable();
+                string cs = ConfigurationManager.ConnectionStrings["MyConn"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(cs))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Select [Title],[Unit],[Description] from [dbo].[RainbowActivity]", con))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            sda.Fill(dt);
+                        }
+                    }
+                }
+                string htmlTable = "<table border='1' cellpadding='0' cellspacing='0'><tr>";
+                foreach (DataColumn column in dt.Columns)
+                {
+                    htmlTable += "<th>" + column.ColumnName + "</th>";
+                }
+                htmlTable += "</tr>";
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string title = dr["Title"].ToString();
+                    string unit = dr["Unit"].ToString();
+                    string description = dr["Description"].ToString();
+
+                    htmlTable += "<tr><td>" + title + "</td></tr>" +
+                                 "<tr><td>" + unit + "</td></tr>" +
+                                 "<tr><td colspan="3">" + description + "</td></tr>";
+                }
+                htmlTable += "</table>";
+                lblmsg.Text = htmlTable;
+
+            }
+        }
+    }   
+}

@@ -1,0 +1,81 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Rangersdb.aspx.cs" Inherits="GirlsGK.Rangersdb" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <link href="css/fixed.css" rel="stylesheet" />
+
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/custom-cs.css" rel="stylesheet" />
+    <link rel="icon" href="img/brownielogo.jpg" />
+
+</head>
+<body class="center">
+    <form id="simpleForm" class="bg-light" runat="server">
+           <br />
+        <br />
+        <br />
+        <div class="container shadow-lg p-5 mb-auto bg-white rounded bg-light" data-spy="scroll" data-offset="0">
+            <div class="row margin">
+                <div class="col-md-12">
+                    <center>
+                <asp:GridView ID="gvRangers" runat="server" AutoGenerateColumns="False" 
+                    BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3"
+                    ForeColor="Black" GridLines="Vertical" OnRowCancelingEdit="gvRangers_RowCancelingEdit" 
+                    OnRowEditing="gvRangers_RowEditing" OnRowUpdating="gvRangers_RowUpdating" ShowFooter="True"
+                    OnRowDeleting="gvRangers_RowDeleting">
+                    <AlternatingRowStyle BackColor="#CCCCCC" />
+                    <Columns>
+                        <asp:BoundField DataField="UserId" HeaderText="UserId" InsertVisible="False" ReadOnly="True" SortExpression="UserId" />
+                        <asp:BoundField DataField="Title" HeaderText="Title" SortExpression="Title" />
+                        <asp:BoundField DataField="PostedDate" HeaderText="PostedDate" SortExpression="PostedDate" />
+                        <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+                    </Columns>
+                    <FooterStyle BackColor="#CCCCCC" />
+                    <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+                    <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                    <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                    <SortedAscendingHeaderStyle BackColor="Gray" />
+                    <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                    <SortedDescendingHeaderStyle BackColor="#383838" />
+                </asp:GridView>
+&nbsp;<asp:Label ID="Label8" runat="server"></asp:Label>
+                </div>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server"
+                    ConnectionString="<%$ ConnectionStrings:MyConn %>"
+                    DeleteCommand="DELETE FROM [RangersActivity] WHERE [UserId] = @UserId"
+                    InsertCommand="INSERT INTO [RangersActivity] ([Title], [PostedDate], [Description]) VALUES (@Title, @PostedDate, @Description)"
+                    SelectCommand="SELECT * FROM [RangersActivity]"
+                    UpdateCommand="UPDATE [RangersActivity] SET [Title] = @Title, [PostedDate] = @PostedDate, [Description] = @Description WHERE [UserId] = @UserId">
+                    <DeleteParameters>
+                        <asp:Parameter Name="UserId" Type="Int32" />
+                    </DeleteParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Title" Type="String" />
+                        <asp:Parameter Name="PostedDate" Type="DateTime" />
+                        <asp:Parameter Name="Description" Type="String" />
+                    </InsertParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Title" Type="String" />
+                        <asp:Parameter Name="PostedDate" Type="DateTime" />
+                        <asp:Parameter Name="Description" Type="String" />
+                        <asp:Parameter Name="UserId" Type="Int32" />
+                    </UpdateParameters>
+                </asp:SqlDataSource>
+                </center>
+            </div>
+            <a href="RangersDynamic.aspx">Back To Admin Page</a>
+        </div>
+           <br />
+        <br />
+        <br />
+    </form>
+</body>
+</html>

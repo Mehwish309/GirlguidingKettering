@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace GirlsGK
+{
+    public partial class Rainbow : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+           
+        }
+
+        //protected void lnkSelect_Click(object sender, EventArgs e)
+        //{
+        //    int UserId = Convert.ToInt32((sender as LinkButton).CommandArgument);
+        //}
+
+        protected void gvRainbow_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if(e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(gvRainbow, "Select$" + e.Row.RowIndex);
+                e.Row.ToolTip = "Click to Slect this row.";
+            }
+        }
+
+        protected void gvRainbow_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (GridViewRow row in gvRainbow.Rows)
+            {
+                if (row.RowIndex == gvRainbow.SelectedIndex)
+                {
+                    row.BackColor = ColorTranslator.FromHtml("#A1DCF2");
+                    row.ToolTip = string.Empty;
+                    String title = row.Cells[0].Text;                  
+                    String unit = row.Cells[1].Text;                    
+                    String description = row.Cells[2].Text;     
+
+
+                    lblmsg.Text = "Title" + title;
+                    lblmsg1.Text = "Unit" + unit;
+                    lblmsg2.Text = "Description" + description;
+
+
+                }
+                else
+                {
+                    row.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                    row.ToolTip = "Click to select this row.";
+                }
+            }
+            lblmsg.Visible = true;
+            lblmsg1.Visible = true;
+            lblmsg2.Visible = true;
+
+        }
+    }
+}

@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Net;
+using System.Net.Mail;
+using System.Configuration;
+using SendGrid;
+using SendGrid.SmtpApi;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using BotDetect.Web.UI;
+using BotDetect;
+
+
+namespace GirlsGK
+{
+    public partial class contactUs : System.Web.UI.Page
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnsend_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+      
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace GirlsGK
+{
+    public partial class RainbowDynamic : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+        protected void Unnamed1_Click(object sender, EventArgs e)
+        {
+            string title = tbtitle.Text;
+            txtDate.Visible = true;
+            //Calendar1.SelectedDate = Convert.ToDateTime(txtcalender.Text);
+            string description = tbdesc.Text;
+
+            if (title != "" && txtDate != null && description != "")
+            {
+                String CS = ConfigurationManager.ConnectionStrings["MyConn"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(CS))
+                {
+                    string query = "Insert into RainbowActivity values('" + tbtitle.Text + "','" + txtDate.Text + "','" + tbdesc.Text + "')";
+                    //tbunit.ReadOnly = true;
+                    //lblmsg.Text = "Readonly mode = true";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        lblmsg.Text = "Added Successfully";
+                        lblmsg.ForeColor = Color.Green;
+                        tbtitle.Text = "";
+                        tbdesc.Text = "";
+                        txtDate.Text = "";
+                    }
+                }
+            }
+            else
+            {
+                lblmsg.ForeColor = Color.Red;
+                lblmsg.Text = "All Field are Mandatory";
+            }
+
+        }
+        protected void logout_Session(object sender, EventArgs e)
+        {
+            Session["USERNAME"] = string.Empty;
+            Response.Redirect("signin.aspx");
+        }
+
+        protected void CRUD_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Rainbowdb.aspx");
+        }
+
+        protected void txtDate_TextChanged(object sender, EventArgs e)
+        {
+            DateTime dt = Convert.ToDateTime(txtDate.Text.ToString());
+            TimeSpan ts = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            dt = dt.Add(ts);
+            txtDate.Text = dt.ToString();
+            txtDate.Visible = true;
+        }
+    }
+}

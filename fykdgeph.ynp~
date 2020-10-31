@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Net;
+using System.Net.Mail;
+using System.Configuration;
+using SendGrid;
+using SendGrid.SmtpApi;
+using System.Drawing;
+using System.Drawing.Imaging;
+
+
+namespace GirlsGK
+{
+    public partial class contactUs : System.Web.UI.Page
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnsend_Click(object sender, EventArgs e)
+        {
+            bool isCaptchaValid = false;
+            if (Session["CaptchaText"] != null && Session["CaptchaText"].ToString() == txtCaptchaText.Text)
+            {
+                isCaptchaValid = true;
+            }
+
+            if (isCaptchaValid)
+            {
+                lblMessage.Text = "Captcha Validation Success";
+                lblMessage.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblcontact.Text = "Captcha Validation Failed";
+                lblcontact.ForeColor = Color.Red;
+            }
+            string SendEmail = ConfigurationManager.AppSettings.Get("SendEmail");
+            string FromAddress = ConfigurationManager.AppSettings.Get("FromAddress");
+            string pwd = ConfigurationManager.AppSettings.Get("pwd");
+            try
+            {
+                if (tbname.Text != null && tbemail.Text != null && tbSubject.Text != null && tbmsg.Text != null)
+                {
+                    string from = tbemail.Text;
+                    string to = FromAddress;
+                    string name = tbname.Text;
+                    MailMessage mailMessage = new MailMessage(from, to);
+
+                    mailMessage.Subject = tbSubject.Text;
+                    mailMessage.Body = "Name: " + tbname.Text + "\n" + "Contact Email: " + tbemail.Text + "\n" + "Message: " + tbmsg.Text + "\n";
+
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(mailMessage);
+
+
+
+                    lblcontact.Text = "form submit";
+                    lblcontact.ForeColor = Color.Green;
+                    tbname.Text = "";
+                    tbemail.Text = "";
+                    tbSubject.Text = "";
+                    tbmsg.Text = "";
+                }
+                else
+                {
+                    lblcontact.Text = "form not submit";
+                    lblcontact.ForeColor = Color.Red;
+                }
+            }
+            catch (Exception ex)
+            {
+                lblcontact.Text = "Something went wrong! Please try again";
+                lblcontact.ForeColor = Color.Red;
+            }
+        }
+
+    }
+}
+
+
+
+
+
+
+
